@@ -23,5 +23,7 @@
     "typechain": "^8.1.0",
     "typescript": ">=4.5.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ganache-cli": "^6.12.2"
+  }
 }
