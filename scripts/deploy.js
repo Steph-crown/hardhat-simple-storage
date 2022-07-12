@@ -8,7 +8,6 @@ async function main() {
   const SimpleStorageContractFactory = await ethers.getContractFactory(
     "SimpleStorage"
   );
-  console.log(network);
 
   console.log("Deploying contract...");
   const simpleStorage = await SimpleStorageContractFactory.deploy();
@@ -20,7 +19,50 @@ async function main() {
   // if chain id is not hardhat chain id and etherscan api key exists
   if (network.config.chainId !== 31337 && process.env.ETHERSCAN_API_KEY) {
     await simpleStorage.deployTransaction.wait(6); //wait 6 blocks
+    console.log("waited");
     await verify(simpleStorage.address, []);
+  }
+
+  // interractions
+  try {
+    // get fav color
+    const myFavColor = await simpleStorage.retrieveMyFavColor();
+    console.log("my favorite color", myFavColor);
+
+    const txResponse = await simpleStorage.store("Blue");
+    await txResponse.wait(1);
+    console.log("color stored");
+
+    // updated fav color
+    const updatedFavColor = await simpleStorage.retrieveMyFavColor();
+    console.log("updated fav color", updatedFavColor);
+
+    // get friends
+    const friends = await simpleStorage.retrieveFriends();
+    console.log("my friends", friends);
+
+    const friendTxResponse = await simpleStorage.addFriend("Biliki", "blue");
+    await friendTxResponse.wait(1);
+    console.log("friend stored");
+
+    const updatedFriends = await simpleStorage.retrieveFriends();
+    console.log("updated fav color", updatedFriends);
+
+    const anotherFriendTxResponse = await simpleStorage.addFriend(
+      "Muller",
+      "yellow"
+    );
+    await friendTxResponse.wait(1);
+    console.log("friend stored");
+
+    const anotherUpdatedFriends = await simpleStorage.retrieveFriends();
+    console.log("updated fav color", anotherUpdatedFriends);
+
+    // get friend's fav color
+    const friendFavColor = await simpleStorage.getFriendFavoriteColor("Biliki");
+    console.log("Biliki's favorite color", friendFavColor);
+  } catch (err) {
+    console.log("An error occured", err);
   }
 }
 

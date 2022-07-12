@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity >0.8.0;
 
 // A contract to store my friends and their fav colors
 contract SimpleStorage {
@@ -24,6 +24,11 @@ contract SimpleStorage {
   // get my favorite color
   function retrieveMyFavColor() public view returns (string memory) {
     return myFavoriteColor;
+  }
+
+  // retrieve friends list
+  function retrieveFriends() public view returns (Friend[] memory) {
+    return friends;
   }
 
   // add a new friend to my list

@@ -1,6 +1,11 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 require("@nomiclabs/hardhat-etherscan");
+const { task } = require("hardhat/config");
+
+// tasks
+require("./tasks/block-number");
+require("./tasks/say-hello");
 
 const RINKEBY_RPC_URL = process.env.RINKEBY_RPC_URL;
 const RINKEBY_PRIVATE_KEY = process.env.RINKEBY_PRIVATE_KEY;
@@ -11,6 +16,15 @@ const GEORLI_PRIVATE_KEY = process.env.GEORLI_PRIVATE_KEY;
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 
 /** @type import('hardhat/config').HardhatUserConfig */
+
+task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
+  const accounts = await hre.ethers.getSigners();
+
+  for (const account of accounts) {
+    console.log(account.address);
+  }
+});
+
 module.exports = {
   solidity: "0.8.9",
   defaultNetwork: "hardhat",
