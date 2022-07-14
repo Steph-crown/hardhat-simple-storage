@@ -9,3 +9,8 @@ typechain-types
 cache
 artifacts
 
+gas-reporter.json
+gas-reporter.txt
+
+./coverage/
+.coverage.json
